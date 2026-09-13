@@ -1,0 +1,51 @@
+version: 1
+scanners:
+  semgrep: true
+  gitleaks: true
+  trivy: true
+  osv: true
+  sonarqube: false
+  snyk: false
+  zap: false
+policy:
+  include_tests: false
+gate:
+  fail_on_severity: [CRITICAL]
+  warn_on_severity: [HIGH]
+  block_secrets: true
+  require_sbom: true
+licenses:
+  denied: [AGPL-3.0, GPL-3.0]
+gitleaks:
+  history: false
+  history_incremental: true
+  config: ""
+semgrep:
+  custom_rules: ""
+zap:
+  mode: auto
+  local_path: ""
+  policy_min_severity: HIGH
+  active: false
+  openapi: ""
+  context: ""
+  user: ""
+  auth_login: ""
+  auth_username_env: SECURITY_CENTER_ZAP_USERNAME
+  auth_password_env: SECURITY_CENTER_ZAP_PASSWORD
+  auth_token_path: authentication.token
+  auth_username_field: email
+  auth_password_field: password
+  auth_header: Authorization
+  auth_prefix: Bearer
+exclusions:
+  global_files: [node_modules/**, dist/**]
+  semgrep_files: []
+  semgrep_rules: []
+  trivy_files: []
+  zap_routes: [/logout]
+execution:
+  max_parallel_scanners: 2
+
+supply_chain:
+  require_provenance: true
